@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.0.0-experimental
 
-FROM node:14.16.0-alpine
+FROM node:14.17.0-alpine
 
 # Allow log level to be controlled. Uses an argument name that is different
 # from the existing environment variable, otherwise the environment variable
