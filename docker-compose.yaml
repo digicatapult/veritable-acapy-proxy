@@ -1,3 +1,14 @@
-# docker-compose.yml
-version: "3"
-services: {}
+version: '3'
+services:
+  vitalam-node:
+    image: ghcr.io/digicatapult/vitalam-node:latest-dev
+    ports:
+      - 30333:30333
+      - 9944:9944
+      - 9933:9933
+    environment:
+      - IDENTITY=dev
+      - WS=true
+      - RPC=true
+      - CORS=all
+    restart: on-failure
