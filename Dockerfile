@@ -8,12 +8,13 @@ FROM node:14.17.0-alpine
 ARG LOGLEVEL
 ENV NPM_CONFIG_LOGLEVEL ${LOGLEVEL}
 
+# Install base dependencies
+RUN npm -g install npm@latest
+
 WORKDIR /vitalam-service-template
 
-# Install base dependencies
 COPY . .
 RUN npm install --production
-
 
 EXPOSE 80
 CMD ["node", "./app/index.js"]
