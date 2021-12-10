@@ -5,7 +5,6 @@ on:
     branches-ignore: ["main"]
 
 jobs:
-
   repo_ids:
     runs-on: ubuntu-latest
     outputs:
@@ -135,10 +134,10 @@ jobs:
         run: npm ci
       - name: Dependency Check
         run: npm run depcheck
+
   tests:
     name: Run tests
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
