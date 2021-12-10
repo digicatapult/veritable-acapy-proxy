@@ -10,7 +10,6 @@ const { PORT, API_VERSION, API_MAJOR_VERSION } = require('./env')
 const logger = require('./logger')
 const v1ApiDoc = require('./api-v1/api-doc')
 const v1ApiService = require('./api-v1/services/apiService')
-const { verifyJwks } = require('./util/appUtil')
 
 async function createHttpServer() {
   const app = express()
@@ -33,11 +32,7 @@ async function createHttpServer() {
   initialize({
     app,
     apiDoc: v1ApiDoc,
-    securityHandlers: {
-      bearerAuth: (req) => {
-        return verifyJwks(req.headers['authorization'])
-      },
-    },
+    securityHandlers: {},
     dependencies: {
       apiService: v1ApiService,
     },

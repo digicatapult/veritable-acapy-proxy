@@ -48,7 +48,7 @@ jobs:
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.0.1
       - name: Run chart-testing (lint)
-        run: ct lint --validate-maintainers false --charts helm/${{ needs.preconditions.outputs.repo_name }}/ --chart-repos bitnami=https://charts.bitnami.com/bitnami,k8s-at-home=https://k8s-at-home.com/charts
+        run: ct lint --validate-maintainers false --charts helm/${{ needs.preconditions.outputs.repo_name }}/
 
   helm-test:
     runs-on: ubuntu-latest
@@ -99,7 +99,7 @@ jobs:
             org.opencontainers.image.url=${{ github.event.repository.html_url }}
             org.opencontainers.image.revision=${{ github.sha }}
       - name: Run chart-testing (install)
-        run: ct install  --charts helm/${{ needs.preconditions.outputs.repo_name }}/ --chart-repos bitnami=https://charts.bitnami.com/bitnami,k8s-at-home=https://k8s-at-home.com/charts
+        run: ct install  --charts helm/${{ needs.preconditions.outputs.repo_name }}/
 
   lint:
     name: Run lint

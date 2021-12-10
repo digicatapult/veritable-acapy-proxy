@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   vitalam-node:
     image: ghcr.io/digicatapult/vitalam-node:v2.3.0

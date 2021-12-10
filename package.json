@@ -36,8 +36,6 @@
     "envalid": "^7.0.0",
     "express": "^4.17.1",
     "express-openapi": "^10.0.0",
-    "jsonwebtoken": "^8.5.1",
-    "jwks-rsa": "^2.0.5",
     "pino": "^6.11.1",
     "pino-http": "^5.5.0",
     "swagger-ui-express": "^4.2.0"

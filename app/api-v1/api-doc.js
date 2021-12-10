@@ -27,15 +27,8 @@ const apiDoc = {
       },
     },
     schemas: {},
-    securitySchemes: {
-      bearerAuth: {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-      },
-    },
+    securitySchemes: {},
   },
-
   paths: {},
 }
 

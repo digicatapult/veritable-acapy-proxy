@@ -1,19 +1,8 @@
 const { ApiPromise, WsProvider, Keyring } = require('@polkadot/api')
-const jwt = require('jsonwebtoken')
-const {
-  API_HOST,
-  API_PORT,
-  USER_URI,
-  METADATA_KEY_LENGTH,
-  METADATA_VALUE_LITERAL_LENGTH,
-  AUTH_AUDIENCE,
-  AUTH_JWKS_URI,
-  AUTH_ISSUER,
-} = require('../env')
+const { API_HOST, API_RPC_PORT, USER_URI, METADATA_KEY_LENGTH, METADATA_VALUE_LITERAL_LENGTH } = require('../env')
 const logger = require('../logger')
-const jwksRsa = require('jwks-rsa')
 
-const provider = new WsProvider(`ws://${API_HOST}:${API_PORT}`)
+const provider = new WsProvider(`ws://${API_HOST}:${API_RPC_PORT}`)
 const apiOptions = {
   provider,
   types: {
@@ -47,11 +36,11 @@ const apiOptions = {
 const api = new ApiPromise(apiOptions)
 
 api.on('disconnected', () => {
-  logger.warn(`Disconnected from substrate node at ${API_HOST}:${API_PORT}`)
+  logger.warn(`Disconnected from substrate node at ${API_HOST}:${API_RPC_PORT}`)
 })
 
 api.on('connected', () => {
-  logger.info(`Connected to substrate node at ${API_HOST}:${API_PORT}`)
+  logger.info(`Connected to substrate node at ${API_HOST}:${API_RPC_PORT}`)
 })
 
 api.on('error', (err) => {
@@ -129,54 +118,10 @@ const validateTokenId = (tokenId) => {
   return id
 }
 
-const client = jwksRsa({
-  cache: true,
-  rateLimit: true,
-  jwksRequestsPerMinute: 5,
-  jwksUri: AUTH_JWKS_URI,
-})
-
-async function getKey(header, cb) {
-  client.getSigningKey(header.kid, (err, key) => {
-    if (err) {
-      logger.warn(`An error occurred getting jwks key ${err}`)
-      cb(err, null)
-    } else if (key) {
-      const signingKey = key.publicKey || key.rsaPublicKey
-      cb(null, signingKey)
-    }
-  })
-}
-
-const verifyJwks = async (authHeader) => {
-  const authToken = authHeader ? authHeader.replace('Bearer ', '') : ''
-
-  const verifyOptions = {
-    audience: AUTH_AUDIENCE,
-    issuer: [AUTH_ISSUER],
-    algorithms: ['RS256'],
-    header: authToken,
-  }
-
-  return new Promise((resolve, reject) => {
-    jwt.verify(authToken, getKey, verifyOptions, (err, decoded) => {
-      if (err) {
-        resolve(false)
-      } else if (decoded) {
-        resolve(true)
-      } else {
-        logger.warn(`Error verifying jwks`)
-        reject({ message: 'An error occurred during jwks verification' })
-      }
-    })
-  })
-}
-
 module.exports = {
   runProcess,
   getLastTokenId,
   validateTokenId,
   hexToUtf8,
   utf8ToUint8Array,
-  verifyJwks,
 }
