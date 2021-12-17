@@ -1,5 +1,7 @@
 config:
   port: 80
+  apiHost: 'localhost'
+  userUri: '//Alice'
 image:
   repository: ghcr.io/digicatapult/vitalam-service-template
   pullPolicy: IfNotPresent
