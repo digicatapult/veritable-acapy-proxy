@@ -25,10 +25,6 @@ This repo provides:
 | SERVICE_TYPE                  |    N     | `info`  | Logging level. Valid values are [`trace`, `debug`, `info`, `warn`, `error`, `fatal`]            |
 | PORT                          |    N     | `3001`  | The port for the API to listen on                                                               |
 | API_HOST                      |    Y     |    -    | The hostname of the `vitalam-node` the API should connect to                                    |
-| API_RPC_PORT                  |    N     | `9944`  | The port of the `vitalam-node` the API should connect to                                        |
 | LOG_LEVEL                     |    N     | `info`  | Logging level. Valid values are [`trace`, `debug`, `info`, `warn`, `error`, `fatal`]            |
-| USER_URI                      |    Y     |    -    | The Substrate `URI` representing the private key to use when making `vitalam-node` transactions |
-| METADATA_KEY_LENGTH           |    N     |  `32`   | Fixed length of metadata keys                                                                   |
-| METADATA_VALUE_LITERAL_LENGTH |    N     |  `32`   | Fixed length of metadata LITERAL values                                                         |
 | API_VERSION                   |    N     |    -    | API version                                                                                     |
 | API_MAJOR_VERSION             |    N     |    -    | API major version                                                                               |
