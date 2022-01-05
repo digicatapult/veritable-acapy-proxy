@@ -7,4 +7,3 @@ metadata:
 data:
   port: {{ .Values.config.port | quote }}
   apiHost: {{ .Values.config.apiHost | quote }}
-  userUri: {{ .Values.config.userUri | quote }}
