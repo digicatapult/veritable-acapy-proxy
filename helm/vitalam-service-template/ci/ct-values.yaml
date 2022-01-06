@@ -1,0 +1,4 @@
+image:
+  repository: 'vitalam-service-template'
+  tag: 'latest'
+  PullPolicy: Never

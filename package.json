@@ -1,0 +1,56 @@
+{
+  "name": "@digicatapult/vitalam-service-template",
+  "version": "0.0.1",
+  "description": "Service for VITALam",
+  "main": "app/index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha --config ./test/mocharc.js ./test",
+    "lint": "eslint .",
+    "depcheck": "depcheck",
+    "start": "NODE_ENV=production node app/index.js",
+    "dev": "NODE_ENV=development nodemon app/index.js | pino-colada",
+    "coverage": "nyc npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digicatapult/vitalam-service-template.git"
+  },
+  "engines": {
+    "node": ">=14.17.0"
+  },
+  "keywords": [
+    "VITALam"
+  ],
+  "author": "Digital Catapult",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/digicatapult/vitalam-service-template/issues"
+  },
+  "homepage": "https://github.com/digicatapult/vitalam-service-template#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "envalid": "^7.0.0",
+    "express": "^4.17.1",
+    "express-openapi": "^10.0.0",
+    "pino": "^6.11.1",
+    "pino-http": "^5.5.0",
+    "swagger-ui-express": "^4.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.1",
+    "chai-json": "^1.0.0",
+    "depcheck": "^1.4.0",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "mocha": "^9.1.2",
+    "nodemon": "^2.0.7",
+    "nyc": "^15.1.0",
+    "pino-colada": "^2.1.0",
+    "prettier": "^2.2.1",
+    "supertest": "^6.1.3"
+  }
+}

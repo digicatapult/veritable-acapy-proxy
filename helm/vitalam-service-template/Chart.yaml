@@ -1,0 +1,10 @@
+apiVersion: v2
+name: vitalam-service-template
+appVersion: '0.0.1'
+description: A Helm chart for vitalam-service-template
+version: '0.0.1'
+type: application
+maintainers:
+  - name: digicatapult
+    email: opensource@digicatapult.org.uk
+    url: www.digicatapult.org.uk
