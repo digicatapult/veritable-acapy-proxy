@@ -6,4 +6,3 @@ metadata:
     {{- include "vitalam-service-template.labels" . | nindent 4 }}
 data:
   port: {{ .Values.config.port | quote }}
-  apiHost: {{ .Values.config.apiHost | quote }}

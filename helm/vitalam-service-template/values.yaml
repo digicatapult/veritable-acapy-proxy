@@ -1,6 +1,5 @@
 config:
   port: 80
-  apiHost: 'localhost'
 image:
   repository: ghcr.io/digicatapult/vitalam-service-template
   pullPolicy: IfNotPresent
