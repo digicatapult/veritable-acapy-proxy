@@ -36,8 +36,3 @@ spec:
                 configMapKeyRef:
                   name: {{ include "vitalam-service-template.fullname" . }}-config
                   key: port
-            - name: API_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "vitalam-service-template.fullname" . }}-config
-                  key: apiHost
