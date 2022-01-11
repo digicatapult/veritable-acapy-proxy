@@ -2,24 +2,22 @@ const { describe, before, it } = require('mocha')
 const jsonChai = require('chai-json')
 const { expect } = require('chai').use(jsonChai)
 
-const { setupServer } = require('../helpers/server')
-const { API_MAJOR_VERSION } = require('../../app/env')
+const { createHttpServer } = require('../../app/server')
+const { apiDocs } = require('../helper/routeHelper')
 
 describe('api-docs', function () {
-  const context = {}
+  let app
 
   before(async function () {
-    await setupServer(context)
-    context.response = await context.request.get(`/${API_MAJOR_VERSION}/api-docs`)
+    app = await createHttpServer()
   })
 
-  it('should return 200', function () {
-    expect(context.response.status).to.equal(200)
-  })
+  it('should return 200', async function () {
+    const actualResult = await apiDocs(app)
 
-  it('successfully returns the api docs json', function () {
-    expect(context.response.body).to.be.a.jsonObj()
-    expect(JSON.stringify(context.response.body)).to.include('openapi')
-    expect(JSON.stringify(context.response.body)).to.include('info')
+    expect(actualResult.status).to.equal(200)
+    expect(actualResult.body).to.be.a.jsonObj()
+    expect(JSON.stringify(actualResult.body)).to.include('openapi')
+    expect(JSON.stringify(actualResult.body)).to.include('info')
   })
 })
