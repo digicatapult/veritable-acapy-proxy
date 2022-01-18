@@ -1,8 +1,8 @@
 apiVersion: v2
 name: vitalam-service-template
-appVersion: '0.0.2'
+appVersion: '0.0.3'
 description: A Helm chart for vitalam-service-template
-version: '0.0.2'
+version: '0.0.3'
 type: application
 maintainers:
   - name: digicatapult
