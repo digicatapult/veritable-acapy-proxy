@@ -253,7 +253,7 @@ jobs:
           token: "${{ secrets.GITHUB_TOKEN }}"
           tag_name: ${{ needs.check-version.outputs.version }}
           prerelease: false
-          name: Release ${{ needs.check-version.outputs.version }}
+          name: ${{ needs.check-version.outputs.version }}
           generate_release_notes: true
       - name: Build release latest
         uses: softprops/action-gh-release@v1
@@ -261,5 +261,5 @@ jobs:
           token: "${{ secrets.GITHUB_TOKEN }}"
           tag_name: latest
           prerelease: false
-          name: Latest Release ${{ needs.check-version.outputs.version }}
+          name: Latest ${{ needs.check-version.outputs.version }}
           generate_release_notes: true

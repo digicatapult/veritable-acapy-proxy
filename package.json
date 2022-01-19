@@ -1,6 +1,6 @@
 {
   "name": "@digicatapult/vitalam-service-template",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Service for VITALam",
   "main": "app/index.js",
   "scripts": {
