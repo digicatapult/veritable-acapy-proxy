@@ -247,6 +247,13 @@ jobs:
           charts_dir: helm
 
       # Build github release
+      - name: Delete latest release
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const { owner, repo } = context.repo
+            await github.rest.git.deleteRef({ owner, repo, ref: 'tags/latest' })
       - name: Build release version
         uses: softprops/action-gh-release@v1
         with:
