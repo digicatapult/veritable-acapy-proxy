@@ -1,6 +1,6 @@
 {
   "name": "@digicatapult/vitalam-service-template",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Service for VITALam",
   "main": "app/index.js",
   "scripts": {
@@ -16,7 +16,8 @@
     "url": "git+https://github.com/digicatapult/vitalam-service-template.git"
   },
   "engines": {
-    "node": ">=14.17.0"
+    "node": "16.x.x",
+    "npm": "8.x.x"
   },
   "keywords": [
     "VITALam"
