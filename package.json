@@ -1,7 +1,7 @@
 {
   "name": "@digicatapult/veritable-acapy-proxy",
   "version": "0.0.1",
-  "description": "Service for VITALam",
+  "description": "Proxy service for AcaPy cloud wallets",
   "main": "app/index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha --config ./test/mocharc.js ./test",
@@ -20,7 +20,8 @@
     "npm": "8.x.x"
   },
   "keywords": [
-    "VITALam"
+    "Veritable",
+    "SSI"
   ],
   "author": "Digital Catapult",
   "license": "Apache-2.0",
