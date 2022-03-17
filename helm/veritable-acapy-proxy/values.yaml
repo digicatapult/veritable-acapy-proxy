@@ -3,5 +3,5 @@ config:
 image:
   repository: ghcr.io/digicatapult/veritable-acapy-proxy
   pullPolicy: IfNotPresent
-  tag: 'v0.0.1'
+  tag: 'v0.0.2'
   pullSecrets: ['ghcr-digicatapult']
