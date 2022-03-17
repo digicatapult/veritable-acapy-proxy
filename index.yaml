@@ -1,0 +1,18 @@
+apiVersion: v1
+entries:
+  veritable-acapy-proxy:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2022-03-17T08:55:45.528520727Z"
+    description: A Helm chart for veritable-acapy-proxy
+    digest: 6ef68f7892e7cc39e477e98dcae7bc335d9ce9fa3c57d923e730722f8003cd42
+    maintainers:
+    - email: opensource@digicatapult.org.uk
+      name: digicatapult
+      url: www.digicatapult.org.uk
+    name: veritable-acapy-proxy
+    type: application
+    urls:
+    - https://digicatapult.github.io/veritable-acapy-proxy/veritable-acapy-proxy-0.0.1.tgz
+    version: 0.0.1
+generated: "2022-03-17T08:55:45.528073021Z"
