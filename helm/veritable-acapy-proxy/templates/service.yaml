@@ -1,0 +1,14 @@
+{{- $fullName := include "veritable-acapy-proxy.fullname" . -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: veritable-acapy-proxy
+  labels:
+    {{- include "veritable-acapy-proxy.labels" . | nindent 4 }}
+spec:
+  selector:
+    name: {{ include "veritable-acapy-proxy.fullname" . }}
+  ports:
+    - protocol: 'TCP'
+      port: 80
+      targetPort: {{ .Values.config.port }}

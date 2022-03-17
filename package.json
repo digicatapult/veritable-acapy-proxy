@@ -1,6 +1,6 @@
 {
-  "name": "@digicatapult/vitalam-service-template",
-  "version": "0.0.8",
+  "name": "@digicatapult/veritable-acapy-proxy",
+  "version": "0.0.1",
   "description": "Service for VITALam",
   "main": "app/index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/digicatapult/vitalam-service-template.git"
+    "url": "git+https://github.com/digicatapult/veritable-acapy-proxy.git"
   },
   "engines": {
     "node": "16.x.x",
@@ -25,9 +25,9 @@
   "author": "Digital Catapult",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/digicatapult/vitalam-service-template/issues"
+    "url": "https://github.com/digicatapult/veritable-acapy-proxy/issues"
   },
-  "homepage": "https://github.com/digicatapult/vitalam-service-template#readme",
+  "homepage": "https://github.com/digicatapult/veritable-acapy-proxy#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",

@@ -11,7 +11,7 @@ ENV NPM_CONFIG_LOGLEVEL ${LOGLEVEL}
 # Install base dependencies
 RUN npm -g install npm@8.x.x
 
-WORKDIR /vitalam-service-template
+WORKDIR /veritable-acapy-proxy
 
 COPY . .
 RUN npm install --production

@@ -1,7 +1,7 @@
 {{/*
 Create name to be used with deployment.
 */}}
-{{- define "vitalam-service-template.fullname" -}}
+{{- define "veritable-acapy-proxy.fullname" -}}
     {{- if .Values.fullnameOverride -}}
         {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
     {{- else -}}
@@ -17,23 +17,23 @@ Create name to be used with deployment.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "vitalam-service-template.chart" -}}
+{{- define "veritable-acapy-proxy.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Selector labels
 */}}
-{{- define "vitalam-service-template.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "vitalam-service-template.fullname" . }}
+{{- define "veritable-acapy-proxy.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "veritable-acapy-proxy.fullname" . }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "vitalam-service-template.labels" -}}
-helm.sh/chart: {{ include "vitalam-service-template.chart" . }}
-{{ include "vitalam-service-template.selectorLabels" . }}
+{{- define "veritable-acapy-proxy.labels" -}}
+helm.sh/chart: {{ include "veritable-acapy-proxy.chart" . }}
+{{ include "veritable-acapy-proxy.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,7 +43,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Conditionally populate imagePullSecrets if present in the context
 */}}
-{{- define "vitalam-service-template.imagePullSecrets" -}}
+{{- define "veritable-acapy-proxy.imagePullSecrets" -}}
   {{- if (not (empty .Values.image.pullSecrets)) }}
 imagePullSecrets:
     {{- range .Values.image.pullSecrets }}
