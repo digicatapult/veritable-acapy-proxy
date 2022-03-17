@@ -1,7 +1,7 @@
 config:
   port: 80
 image:
-  repository: ghcr.io/digicatapult/vitalam-service-template
+  repository: ghcr.io/digicatapult/veritable-acapy-proxy
   pullPolicy: IfNotPresent
-  tag: 'v0.0.8'
+  tag: 'v0.0.1'
   pullSecrets: ['ghcr-digicatapult']

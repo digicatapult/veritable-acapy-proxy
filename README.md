@@ -1,4 +1,4 @@
-# vitalam-service-template
+# veritable-acapy-proxy
 
 Template repository for bootstrapping new VITALam services. Use this repo as a template in github when creating new `VITALam` services. When forked a new pull request will automatically be created in the new repository to apply templating. Before merging you should also give access to the forked repo the `GITHUB_TOKEN` organisation secret prior to merging. This will allow the release workflow to run successfully on merging.
 
@@ -18,7 +18,7 @@ This repo provides:
 
 ## Environment Variables
 
-`vitalam-service-template` is configured primarily using environment variables as follows:
+`veritable-acapy-proxy` is configured primarily using environment variables as follows:
 
 | variable                      | required | default | description                                                                                     |
 | :---------------------------- | :------: | :-----: | :---------------------------------------------------------------------------------------------- |

@@ -1,4 +1,4 @@
 image:
-  repository: 'vitalam-service-template'
+  repository: 'veritable-acapy-proxy'
   tag: 'latest'
   PullPolicy: Never

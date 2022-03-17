@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'test') {
 const vars = envalid.cleanEnv(
   process.env,
   {
-    SERVICE_TYPE: envalid.str({ default: 'vitalam-service-template'.toUpperCase().replace(/-/g, '_') }),
+    SERVICE_TYPE: envalid.str({ default: 'veritable-acapy-proxy'.toUpperCase().replace(/-/g, '_') }),
     PORT: envalid.port({ default: 80, devDefault: 3000 }),
     API_VERSION: envalid.str({ default: version }),
     API_MAJOR_VERSION: envalid.str({ default: 'v1' }),

@@ -6,9 +6,9 @@ set -e
 function check_versions_consistent () {
   local PACKAGE_VERSION=$(yq eval '.version' ./package.json)
   local PACKAGE_LOCK_VERSION=$(yq eval '.version' ./package-lock.json)
-  local HELM_VALUES_TAG_VERSION=$(yq eval '.image.tag' ./helm/vitalam-service-template/values.yaml)
-  local HELM_CHART_VERSION=$(yq eval '.version' ./helm/vitalam-service-template/Chart.yaml)
-  local HELM_CHART_APP_VERSION=$(yq eval '.appVersion' ./helm/vitalam-service-template/Chart.yaml)
+  local HELM_VALUES_TAG_VERSION=$(yq eval '.image.tag' ./helm/veritable-acapy-proxy/values.yaml)
+  local HELM_CHART_VERSION=$(yq eval '.version' ./helm/veritable-acapy-proxy/Chart.yaml)
+  local HELM_CHART_APP_VERSION=$(yq eval '.appVersion' ./helm/veritable-acapy-proxy/Chart.yaml)
 
   if [ "$PACKAGE_VERSION" != "$PACKAGE_LOCK_VERSION" ] ||
      [ "v$PACKAGE_VERSION" != "$HELM_VALUES_TAG_VERSION" ] ||

@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "vitalam-service-template.fullname" . }}
+  name: {{ include "veritable-acapy-proxy.fullname" . }}
   labels:
-    {{- include "vitalam-service-template.labels" . | nindent 4 }}
+    {{- include "veritable-acapy-proxy.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      name: {{ include "vitalam-service-template.fullname" . }}
+      name: {{ include "veritable-acapy-proxy.fullname" . }}
   template:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
       labels:
-        name: {{ include "vitalam-service-template.fullname" . }}
+        name: {{ include "veritable-acapy-proxy.fullname" . }}
     spec:
-      {{- include "vitalam-service-template.imagePullSecrets" . | indent 6 }}
+      {{- include "veritable-acapy-proxy.imagePullSecrets" . | indent 6 }}
       initContainers: []
 
       containers:
-        - name: {{ include "vitalam-service-template.fullname" . }}
+        - name: {{ include "veritable-acapy-proxy.fullname" . }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           livenessProbe:
@@ -34,5 +34,5 @@ spec:
             - name: PORT
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "vitalam-service-template.fullname" . }}-config
+                  name: {{ include "veritable-acapy-proxy.fullname" . }}-config
                   key: port
