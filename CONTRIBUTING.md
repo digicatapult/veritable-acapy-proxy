@@ -2,7 +2,7 @@
 
 Firstly, we would like to thank you for taking the time to contribute!
 
-The following is a set of guidelines for contributing to VITALam and its packages, which are hosted on the [digicatapult](https://github.com/digicatapult) organisation on GitHub. These are mostly guidelines, not rules. Use your best judgement, and feel free to propose changes to this document in a pull request.
+The following is a set of guidelines for contributing to Veritable and its packages, which are hosted on the [digicatapult](https://github.com/digicatapult) organisation on GitHub. These are mostly guidelines, not rules. Use your best judgement, and feel free to propose changes to this document in a pull request.
 
 #### Table Of Contents
 
@@ -24,7 +24,7 @@ The following is a set of guidelines for contributing to VITALam and its package
 
 ## Code of Conduct
 
-This project and all those participating in it are governed by the [Digital Catapult's Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behaviour to [opensource@digicatapult.org.uk](mailto:opensource@digicatapult.org.uk?subject=VITALam).
+This project and all those participating in it are governed by the [Digital Catapult's Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behaviour to [opensource@digicatapult.org.uk](mailto:opensource@digicatapult.org.uk?subject=Veritable).
 
 ## FAQs
 
