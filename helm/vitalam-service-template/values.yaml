@@ -3,5 +3,5 @@ config:
 image:
   repository: ghcr.io/digicatapult/vitalam-service-template
   pullPolicy: IfNotPresent
-  tag: 'v0.0.8'
+  tag: 'v0.0.9'
   pullSecrets: ['ghcr-digicatapult']
