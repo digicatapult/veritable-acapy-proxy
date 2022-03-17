@@ -1,15 +1,28 @@
 const express = require('express')
 const cors = require('cors')
 const pinoHttp = require('pino-http')
-const { initialize } = require('express-openapi')
 const swaggerUi = require('swagger-ui-express')
-const path = require('path')
 const bodyParser = require('body-parser')
 const compression = require('compression')
-const { PORT, API_VERSION, API_MAJOR_VERSION } = require('./env')
+const swagger2openapi = require('swagger2openapi')
+const { auth } = require('express-oauth2-jwt-bearer')
+
+const env = require('./env')
 const logger = require('./logger')
-const v1ApiDoc = require('./api-v1/api-doc')
-const v1ApiService = require('./api-v1/services/apiService')
+const transformApiDoc = require('./util/transformApiDoc')
+const { querySubWallets, createSubWallet, getSubWalletToken, subWalletCall } = require('./acapy')
+
+const {
+  SERVICE_HOST,
+  SERVICE_PORT,
+  SERVICE_TYPE,
+  PORT,
+  API_VERSION,
+  API_MAJOR_VERSION,
+  ACAPY_ADMIN_SERVICE,
+  AUTH_ISSUER,
+  AUTH_AUDIENCE,
+} = env
 
 async function createHttpServer() {
   const app = express()
@@ -29,28 +42,75 @@ async function createHttpServer() {
     return
   })
 
-  initialize({
-    app,
-    apiDoc: v1ApiDoc,
-    securityHandlers: {},
-    dependencies: {
-      apiService: v1ApiService,
-    },
-    paths: [path.resolve(__dirname, `api-${API_MAJOR_VERSION}/routes`)],
+  const acapyPathPrefix = `/${API_MAJOR_VERSION}/aca-py`
+  const specTransformOptions = {
+    title: SERVICE_TYPE,
+    version: API_VERSION,
+    pathPrefix: acapyPathPrefix,
+  }
+  app.get(`/${API_MAJOR_VERSION}/api-docs`, async (req, res) => {
+    const apiDocResponse = await swagger2openapi.convertUrl(`${ACAPY_ADMIN_SERVICE}/api/docs/swagger.json`, {
+      patch: true,
+    })
+    const apiDoc = apiDocResponse.openapi
+    // TODO: cache this
+    res.send(await transformApiDoc(apiDoc, specTransformOptions))
   })
 
   const options = {
     swaggerOptions: {
       urls: [
         {
-          url: `http://localhost:${PORT}/${API_MAJOR_VERSION}/api-docs`,
-          name: 'ApiService',
+          url: `http://${SERVICE_HOST}:${SERVICE_PORT}/${API_MAJOR_VERSION}/api-docs`,
+          name: SERVICE_TYPE,
         },
       ],
     },
   }
 
   app.use(`/${API_MAJOR_VERSION}/swagger`, swaggerUi.serve, swaggerUi.setup(null, options))
+
+  // auth0 middleware for authenticated routes
+  const checkJwt = auth({
+    audience: AUTH_AUDIENCE,
+    issuerBaseURL: AUTH_ISSUER,
+  })
+  app.use(acapyPathPrefix, checkJwt)
+
+  // wallet create
+  app.post(`${acapyPathPrefix}/multitenancy/wallet`, async (req, res) => {
+    const subject = req.auth.payload.sub
+    const wallets = await querySubWallets(subject)
+    if (wallets.length !== 0) {
+      res.status(409).send(`409 Wallet already exists`)
+    }
+
+    const result = await createSubWallet({
+      ...req.body,
+      wallet_name: subject,
+    })
+
+    res.status(200).send(result)
+  })
+
+  // other paths
+  app.all(`${acapyPathPrefix}/*`, async (req, res) => {
+    const subject = req.auth.payload.sub
+    const token = await getSubWalletToken(subject)
+
+    if (token === null) {
+      res.status(401).send('401 Unauthorized')
+      return
+    }
+
+    const result = await subWalletCall(token, {
+      path: req.path.substring(acapyPathPrefix.length),
+      query: req.query,
+      method: req.method,
+      body: req.body,
+    })
+    res.send(result)
+  })
 
   // Sorry - app.use checks arity
   // eslint-disable-next-line no-unused-vars

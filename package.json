@@ -36,10 +36,12 @@
     "dotenv": "^8.2.0",
     "envalid": "^7.0.0",
     "express": "^4.17.1",
-    "express-openapi": "^10.0.0",
+    "express-oauth2-jwt-bearer": "^1.1.0",
+    "node-fetch": "^3.2.3",
     "pino": "^6.11.1",
     "pino-http": "^5.5.0",
-    "swagger-ui-express": "^4.2.0"
+    "swagger-ui-express": "^4.2.0",
+    "swagger2openapi": "^7.0.8"
   },
   "devDependencies": {
     "chai": "^4.3.1",

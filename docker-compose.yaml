@@ -1,3 +1,24 @@
 version: '3'
 
-services: {}
+services:
+  acapy:
+    image: bcgovimages/aries-cloudagent:py36-1.16-1_0.7.3
+    container_name: acapy
+    command: 'start --inbound-transport http 0.0.0.0 8000 --inbound-transport ws 0.0.0.0 8001 --admin 0.0.0.0 8002'
+    restart: on-failure
+    environment:
+      - ACAPY_ENDPOINT=http://localhost:8000
+      - ACAPY_OUTBOUND_TRANSPORT=http
+      - ACAPY_NO_LEDGER=true
+      - ACAPY_ADMIN_API_KEY=API_KEY
+      - ACAPY_MULTITENANT=true
+      - ACAPY_MULTITENANT_JWT_SECRET=secret
+      - ACAPY_MULTITENANT_ADMIN=true
+      - ACAPY_LOG_LEVEL=debug
+      - ACAPY_TRACE_TARGET=log
+      - ACAPY_TRACE_TAG=acapy.events
+      - ACAPY_DEBUG_CONNECTIONS=true
+    ports:
+      - 8010:8000
+      - 8011:8001
+      - 8012:8002
