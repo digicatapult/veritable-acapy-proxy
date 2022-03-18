@@ -1,26 +1,27 @@
+{{- $fullName := include "veritable-acapy-proxy.fullname" . -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "veritable-acapy-proxy.fullname" . }}
+  name: {{ $fullName }}
   labels:
     {{- include "veritable-acapy-proxy.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      name: {{ include "veritable-acapy-proxy.fullname" . }}
+      name: {{ $fullName }}
   template:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
       labels:
-        name: {{ include "veritable-acapy-proxy.fullname" . }}
+        name: {{ $fullName }}
     spec:
       {{- include "veritable-acapy-proxy.imagePullSecrets" . | indent 6 }}
       initContainers: []
 
       containers:
-        - name: {{ include "veritable-acapy-proxy.fullname" . }}
+        - name: {{ $fullName }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           livenessProbe:
@@ -34,5 +35,40 @@ spec:
             - name: PORT
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "veritable-acapy-proxy.fullname" . }}-config
+                  name: {{ $fullName }}-config
                   key: port
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ $fullName }}-config
+                  key: logLevel
+            - name: SERVICE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ $fullName }}-config
+                  key: serviceHost
+            - name: SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ $fullName }}-config
+                  key: servicePort
+            - name: ACAPY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $fullName }}-secret
+                  key: acapyApiKey
+            - name: ACAPY_ADMIN_SERVICE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ $fullName }}-config
+                  key: acapyAdminService
+            - name: AUTH_AUDIENCE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ $fullName }}-config
+                  key: authAudience
+            - name: AUTH_ISSUER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ $fullName }}-config
+                  key: authIssuer

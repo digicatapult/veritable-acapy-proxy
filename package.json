@@ -1,6 +1,6 @@
 {
   "name": "@digicatapult/veritable-acapy-proxy",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Proxy service for AcaPy cloud wallets",
   "main": "app/index.js",
   "scripts": {
