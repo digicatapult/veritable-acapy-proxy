@@ -1,6 +1,6 @@
 # veritable-acapy-proxy
 
-Proxy service for aca-py cloud wallets. [aries-cloudagent-python](https://github.com/hyperledger/aries-cloudagent-python) (also known as aca-py) is a cloud based wallet service for SSI implementations. The architecture of aca-py does not however allow a frontend to connect directly to it safely as this would expose all necessary API authentication details. This service acts an authenticated shim for aca-py such that it can be used safely as a multi-tenant cloud wallet.
+Proxy service for aca-py cloud wallets. [aries-cloudagent-python](https://github.com/hyperledger/aries-cloudagent-python) (also known as aca-py) is a cloud based wallet service for SSI implementations. The architecture of aca-py does not however allow a frontend to connect directly to it safely as this would expose all necessary API authentication details (see [this issue](https://github.com/hyperledger/aries-cloudagent-python/issues/1632) for details). This service acts an authenticated shim for aca-py such that it can be used safely as a multi-tenant cloud wallet.
 
 ## Architecture
 
@@ -39,3 +39,41 @@ Environment variables are additionally loaded from a `.env` file in the root of 
 
 ## Development setup
 
+In order to develop `veritable-acapy-proxy` and run the tests you'll need the following local tooling:
+
+1. `nodejs` version `16` or later
+2. `npm` version `8` or later
+3. `docker` version `20.10` or later
+4. `docker-compose` version `1.29` or later
+
+You will also need to have an [`Auth0`](https://auth0.com/) account (free sign-up) in which you have created an `api` and a test application. The article [here](https://auth0.com/docs/get-started/apis/create-m2m-app-test) will walk you through the process.
+
+With that you should now be able to configure values for `AUTH_SECRET`, `AUTH_CLIENT_ID`, `AUTH_AUDIENCE`, `AUTH_ISSUER` and `AUTH_TOKEN_ENDPOINT` in a `.env` file in the root of this repository. This file is gitignored so will note be committed to git. With that done you can bring up an `aca-py` instance for testing against using:
+
+```sh
+docker-compose up -d
+```
+
+Install dependencies with
+
+```sh
+npm install
+```
+
+And finally either run the application with
+
+```sh
+npm run dev
+```
+
+or run the tests with
+
+```sh
+npm run test
+```
+
+A code coverage report can also be generated with
+
+```sh
+npm run coverage
+```
