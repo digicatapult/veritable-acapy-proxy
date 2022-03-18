@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const { version } = require('../package.json')
 
 dotenv.config({ path: '.env' })
+/* istanbul ignore else */
 if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: 'test/test.env' })
 }

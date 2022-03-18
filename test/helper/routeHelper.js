@@ -47,8 +47,41 @@ async function createWallet({ app, token }, body) {
     })
 }
 
+async function listDids({ app, token }, query = {}) {
+  return request(app)
+    .get(`/${API_MAJOR_VERSION}/aca-py/wallet/did`)
+    .query(query)
+    .set('Accept', 'application/json, text/plain')
+    .set('Authorization', `Bearer ${token}`)
+    .send()
+    .then((response) => {
+      return response
+    })
+    .catch((err) => {
+      console.error(`healthCheckErr ${err}`)
+      return err
+    })
+}
+
+async function createDid({ app, token }, body) {
+  return request(app)
+    .post(`/${API_MAJOR_VERSION}/aca-py/wallet/did/create`)
+    .set('Accept', 'application/json, text/plain')
+    .set('Authorization', `Bearer ${token}`)
+    .send(body)
+    .then((response) => {
+      return response
+    })
+    .catch((err) => {
+      console.error(`healthCheckErr ${err}`)
+      return err
+    })
+}
+
 module.exports = {
   apiDocs,
   healthCheck,
   createWallet,
+  listDids,
+  createDid,
 }

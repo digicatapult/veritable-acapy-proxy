@@ -47,10 +47,41 @@ const withExistingWallet = (context) => {
   })
 }
 
+const withExistingDid = (context) => {
+  before(async function () {
+    const fetch = (await import('node-fetch')).default
+
+    const tokenCreateUrl = new URL(`${ACAPY_ADMIN_SERVICE}/multitenancy/wallet/${context.walletId}/token`)
+    const tokenResponse = await fetch(tokenCreateUrl, {
+      method: 'POST',
+      headers: { 'x-api-key': ACAPY_API_KEY, 'content-type': 'application/json' },
+      body: JSON.stringify({}),
+    })
+    const acapyToken = (await tokenResponse.json()).token
+
+    const didCreationUrl = new URL(`${ACAPY_ADMIN_SERVICE}/wallet/did/create`)
+    const createResponse = await fetch(didCreationUrl, {
+      method: 'POST',
+      headers: {
+        'x-api-key': ACAPY_API_KEY,
+        authorization: `Bearer ${acapyToken}`,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        method: 'sov',
+        options: {
+          key_type: 'ed25519',
+        },
+      }),
+    })
+    context.existingDid = (await createResponse.json()).result.did
+  })
+}
+
 const finallyCleanUpWallet = (context) => {
   after(async function () {
     await cleanup(context)
   })
 }
 
-module.exports = { withNoExistingWallet, withExistingWallet, finallyCleanUpWallet }
+module.exports = { withNoExistingWallet, withExistingWallet, withExistingDid, finallyCleanUpWallet }

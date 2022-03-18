@@ -12,7 +12,7 @@ const vars = envalid.cleanEnv(
   {
     AUTH_CLIENT_ID: envalid.str(),
     AUTH_SECRET: envalid.str(),
-    AUTH_TOKEN_ENDPOINT: envalid.str({ default: 'https://veritable.eu.auth0.com/oauth/token' }),
+    AUTH_TOKEN_ENDPOINT: envalid.str(),
   },
   {
     strict: true,

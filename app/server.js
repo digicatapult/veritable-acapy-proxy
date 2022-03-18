@@ -115,7 +115,9 @@ async function createHttpServer() {
     res.status(response.status).type(response.headers.get('content-type')).send(result)
   })
 
-  // Sorry - app.use checks arity
+  // Sorry - app.use checks arity. This is a defensive fallthrough to make sure we always
+  // respond hence ignored in coverage
+  /* istanbul ignore next */
   // eslint-disable-next-line no-unused-vars
   app.use((err, req, res, next) => {
     if (err.status) {
