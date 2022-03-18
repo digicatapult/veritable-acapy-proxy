@@ -31,6 +31,30 @@ const prefixBasePaths = (apiDoc, prefix) => {
   return { paths: transformedPaths, ...rest }
 }
 
+const removeComponentSchemaProperty = (apiDoc, schemaName, propertyName) => {
+  const { properties: origProps, required: origRequired, ...schemaRest } = apiDoc.components.schemas[schemaName]
+  const newProps = { ...origProps }
+  delete newProps[propertyName]
+  const newRequired = origRequired === undefined ? undefined : [...origRequired].filter((req) => req !== propertyName)
+  const schema = Object.assign({}, schemaRest, { properties: newProps }, newRequired && { required: newRequired })
+  const schemas = {
+    ...apiDoc.components.schemas,
+    [schemaName]: schema,
+  }
+  const components = {
+    ...apiDoc.components,
+    schemas,
+  }
+  return { ...apiDoc, components }
+}
+
+const updateCreateWalletComponents = (apiDoc) => {
+  apiDoc = removeComponentSchemaProperty(apiDoc, 'CreateWalletRequest', 'wallet_name')
+  apiDoc = removeComponentSchemaProperty(apiDoc, 'CreateWalletResponse', 'wallet_id')
+  apiDoc = removeComponentSchemaProperty(apiDoc, 'CreateWalletResponse', 'token')
+  return apiDoc
+}
+
 const transformApiDoc = (apiDoc, options) => {
   const walletCreatePathSpec = apiDoc.paths[WALLET_CREATE_PATH].post
   apiDoc = removeMultitenancy(apiDoc)
@@ -40,6 +64,9 @@ const transformApiDoc = (apiDoc, options) => {
 
   apiDoc = updateInfo(apiDoc, { title: options.title, version: options.version })
   apiDoc = updateSecurityDefs(apiDoc)
+
+  apiDoc = updateCreateWalletComponents(apiDoc)
+
   return apiDoc
 }
 

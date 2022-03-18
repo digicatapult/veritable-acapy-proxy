@@ -38,8 +38,8 @@ const withExistingWallet = (context) => {
       headers: { 'x-api-key': ACAPY_API_KEY, 'content-type': 'application/json' },
       body: JSON.stringify({
         label: 'test',
-        wallet_key: 'MySecretKey123', // TODO: remove
-        wallet_name: context.subWalletName, // TODO: remove
+        wallet_key: 'MySecretKey123',
+        wallet_name: context.subWalletName,
         wallet_type: 'in_memory',
       }),
     })

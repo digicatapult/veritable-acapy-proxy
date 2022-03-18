@@ -18,8 +18,7 @@ describe('wallet creation', function () {
     it('should create a new wallet', async function () {
       const response = await createWallet(context, {
         label: 'test',
-        wallet_key: 'MySecretKey123', // TODO: remove
-        wallet_name: context.subWalletName, // TODO: remove
+        wallet_key: 'MySecretKey123',
         wallet_type: 'in_memory',
       })
       expect(response.status).to.equal(200)
@@ -41,8 +40,7 @@ describe('wallet creation', function () {
     it('should pass through error', async function () {
       const response = await createWallet(context, {
         label: 'test',
-        wallet_key: 'MySecretKey123', // TODO: remove
-        wallet_name: context.subWalletName, // TODO: remove
+        wallet_key: 'MySecretKey123',
         wallet_type: 'invalid_wallet_type',
       })
       expect(response.status).to.equal(422)
@@ -63,8 +61,7 @@ describe('wallet creation', function () {
     it('should create a new wallet', async function () {
       const response = await createWallet(context, {
         label: 'test',
-        wallet_key: 'MySecretKey123', // TODO: remove
-        wallet_name: context.subWalletName, // TODO: remove
+        wallet_key: 'MySecretKey123',
         wallet_type: 'in_memory',
       })
       expect(response.status).to.equal(409)

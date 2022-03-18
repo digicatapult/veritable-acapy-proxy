@@ -7362,11 +7362,6 @@
             "example": "MySecretKey123",
             "type": "string"
           },
-          "wallet_name": {
-            "description": "Wallet name",
-            "example": "MyNewWallet",
-            "type": "string"
-          },
           "wallet_type": {
             "description": "Type of the wallet to create",
             "enum": [
@@ -7414,26 +7409,15 @@
             "example": "active",
             "type": "string"
           },
-          "token": {
-            "description": "Authorization token to authenticate wallet requests",
-            "example": "eyJhbGciOiJFZERTQSJ9.eyJhIjogIjAifQ.dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk",
-            "type": "string"
-          },
           "updated_at": {
             "description": "Time of last record update",
             "example": "2021-12-31T23:59:59Z",
             "pattern": "^\\d{4}-\\d\\d-\\d\\d[T ]\\d\\d:\\d\\d(?:\\:(?:\\d\\d(?:\\.\\d{1,6})?))?(?:[+-]\\d\\d:?\\d\\d|Z|)$",
             "type": "string"
-          },
-          "wallet_id": {
-            "description": "Wallet record ID",
-            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            "type": "string"
           }
         },
         "required": [
-          "key_management_mode",
-          "wallet_id"
+          "key_management_mode"
         ],
         "type": "object"
       },
