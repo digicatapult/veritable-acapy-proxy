@@ -1,8 +1,14 @@
 const { before } = require('mocha')
 const { AUTH_CLIENT_ID, AUTH_SECRET, AUTH_TOKEN_ENDPOINT, AUTH_AUDIENCE } = require('./env')
 
+let token, subWalletName
 const withAuthToken = (context) => {
   before(async function () {
+    if (token) {
+      Object.assign(context, { token, subWalletName })
+      return
+    }
+
     const fetch = (await import('node-fetch')).default
 
     const tokenFetch = await fetch(AUTH_TOKEN_ENDPOINT, {
@@ -16,9 +22,11 @@ const withAuthToken = (context) => {
       }),
     })
 
-    const token = await tokenFetch.json()
+    const tokenResult = await tokenFetch.json()
 
-    context.token = token.access_token
+    token = tokenResult.access_token
+    context.token = tokenResult.access_token
+    subWalletName = `${AUTH_CLIENT_ID}@clients`
     context.subWalletName = `${AUTH_CLIENT_ID}@clients`
   })
 }
