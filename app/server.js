@@ -82,15 +82,16 @@ async function createHttpServer() {
     const subject = req.auth.payload.sub
     const wallets = await querySubWallets(subject)
     if (wallets.length !== 0) {
-      res.status(409).send(`409 Wallet already exists`)
+      res.status(409).type('text/plain').send(`409 Wallet already exists`)
     }
 
-    const result = await createSubWallet({
+    const response = await createSubWallet({
       ...req.body,
       wallet_name: subject,
     })
 
-    res.status(200).send(result)
+    const result = Buffer.from(await response.arrayBuffer())
+    res.status(response.status).type(response.headers.get('content-type')).send(result)
   })
 
   // other paths
@@ -99,27 +100,32 @@ async function createHttpServer() {
     const token = await getSubWalletToken(subject)
 
     if (token === null) {
-      res.status(401).send('401 Unauthorized')
+      res.status(401).type('text/plain').send('401 Unauthorized')
       return
     }
 
-    const result = await subWalletCall(token, {
+    const response = await subWalletCall(token, {
       path: req.path.substring(acapyPathPrefix.length),
       query: req.query,
       method: req.method,
       body: req.body,
     })
-    res.send(result)
+
+    const result = Buffer.from(await response.arrayBuffer())
+    res.status(response.status).type(response.headers.get('content-type')).send(result)
   })
 
   // Sorry - app.use checks arity
   // eslint-disable-next-line no-unused-vars
   app.use((err, req, res, next) => {
     if (err.status) {
-      res.status(err.status).send({ error: err.status === 401 ? 'Unauthorised' : err.message })
+      res
+        .status(err.status)
+        .type('text/plain')
+        .send({ error: err.status === 401 ? 'Unauthorised' : err.message })
     } else {
       logger.error('Fallback Error %j', err.stack)
-      res.status(500).send('Fatal error!')
+      res.status(500).type('text/plain').send('Fatal error!')
     }
   })
 

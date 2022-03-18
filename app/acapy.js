@@ -26,12 +26,12 @@ const createSubWallet = async (body) => {
     method: 'POST',
     headers: {
       'x-api-key': ACAPY_API_KEY,
+      'content-type': 'application/json',
     },
     body: JSON.stringify(body),
   })
 
-  const create = await createResponse.json()
-  return create
+  return createResponse
 }
 
 const getSubWalletToken = async (subWalletName) => {
@@ -48,6 +48,7 @@ const getSubWalletToken = async (subWalletName) => {
     method: 'POST',
     headers: {
       'x-api-key': ACAPY_API_KEY,
+      'content-type': 'application/json',
     },
     body: JSON.stringify({}),
   })
@@ -64,17 +65,17 @@ const subWalletCall = async (token, { path, query, method, body }) => {
   const search = new URLSearchParams(query)
   url.search = search.toString()
 
-  const callResponse = await fetch(url, {
+  const response = await fetch(url, {
     method,
     headers: {
       'x-api-key': ACAPY_API_KEY,
       authorization: `Bearer ${token}`,
+      'content-type': noBodyMethods.has(method) ? undefined : 'application/json',
     },
     body: noBodyMethods.has(method) ? undefined : JSON.stringify(body),
   })
 
-  const result = await callResponse.json()
-  return result
+  return response
 }
 
 module.exports = {

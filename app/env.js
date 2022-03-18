@@ -2,10 +2,9 @@ const envalid = require('envalid')
 const dotenv = require('dotenv')
 const { version } = require('../package.json')
 
+dotenv.config({ path: '.env' })
 if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: 'test/test.env' })
-} else {
-  dotenv.config({ path: '.env' })
 }
 
 const vars = envalid.cleanEnv(
@@ -20,8 +19,8 @@ const vars = envalid.cleanEnv(
     LOG_LEVEL: envalid.str({ default: 'info', devDefault: 'debug' }),
     ACAPY_API_KEY: envalid.str({ devDefault: 'API_KEY' }),
     ACAPY_ADMIN_SERVICE: envalid.str({ devDefault: 'http://localhost:8012' }),
-    AUTH_AUDIENCE: envalid.str({ devDefault: 'http://veritable-dev' }),
-    AUTH_ISSUER: envalid.url({ devDefault: 'https://veritable.eu.auth0.com/' }),
+    AUTH_AUDIENCE: envalid.str(),
+    AUTH_ISSUER: envalid.url(),
   },
   {
     strict: true,

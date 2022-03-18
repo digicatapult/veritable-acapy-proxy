@@ -31,7 +31,24 @@ async function healthCheck({ app }) {
     })
 }
 
+async function createWallet({ app, token }, body) {
+  return request(app)
+    .post(`/${API_MAJOR_VERSION}/aca-py/multitenancy/wallet`)
+    .set('Accept', 'application/json, text/plain')
+    .set('Content-Type', 'application/json')
+    .set('Authorization', `Bearer ${token}`)
+    .send(body)
+    .then((response) => {
+      return response
+    })
+    .catch((err) => {
+      console.error(`healthCheckErr ${err}`)
+      return err
+    })
+}
+
 module.exports = {
   apiDocs,
   healthCheck,
+  createWallet,
 }
