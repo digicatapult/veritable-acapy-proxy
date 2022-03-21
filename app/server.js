@@ -5,7 +5,9 @@ const swaggerUi = require('swagger-ui-express')
 const bodyParser = require('body-parser')
 const compression = require('compression')
 const swagger2openapi = require('swagger2openapi')
-const { auth } = require('express-oauth2-jwt-bearer')
+
+const jwt = require('express-jwt')
+const jwksRsa = require('jwks-rsa')
 
 const env = require('./env')
 const logger = require('./logger')
@@ -71,15 +73,21 @@ async function createHttpServer() {
   app.use(`/${API_MAJOR_VERSION}/swagger`, swaggerUi.serve, swaggerUi.setup(null, options))
 
   // auth0 middleware for authenticated routes
-  const checkJwt = auth({
-    audience: AUTH_AUDIENCE,
-    issuerBaseURL: AUTH_ISSUER,
-  })
-  app.use(acapyPathPrefix, checkJwt)
+  app.use(
+    acapyPathPrefix,
+    jwt({
+      secret: jwksRsa.expressJwtSecret({
+        cache: true,
+        jwksUri: `${AUTH_ISSUER}/.well-known/jwks.json`,
+      }),
+      audience: AUTH_AUDIENCE,
+      algorithms: ['RS256'],
+    })
+  )
 
   // wallet create
   app.post(`${acapyPathPrefix}/multitenancy/wallet`, async (req, res) => {
-    const subject = req.auth.payload.sub
+    const subject = req.user.sub
     const wallets = await querySubWallets(subject)
     if (wallets.length !== 0) {
       res.status(409).type('text/plain').send(`409 Wallet already exists`)
@@ -96,7 +104,7 @@ async function createHttpServer() {
 
   // other paths
   app.all(`${acapyPathPrefix}/*`, async (req, res) => {
-    const subject = req.auth.payload.sub
+    const subject = req.user.sub
     const token = await getSubWalletToken(subject)
 
     if (token === null) {

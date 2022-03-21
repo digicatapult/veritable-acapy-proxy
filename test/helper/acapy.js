@@ -1,5 +1,5 @@
 const { before, after } = require('mocha')
-const { ACAPY_API_KEY, ACAPY_ADMIN_SERVICE } = require('./env')
+const { ACAPY_API_KEY, ACAPY_ADMIN_SERVICE } = require('../../app/env')
 
 const cleanup = async (context) => {
   const fetch = (await import('node-fetch')).default
