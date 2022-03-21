@@ -47,12 +47,42 @@ async function createWallet({ app, token }, body) {
     })
 }
 
+async function createWalletUnauthorized({ app }, body) {
+  return request(app)
+    .post(`/${API_MAJOR_VERSION}/aca-py/multitenancy/wallet`)
+    .set('Accept', 'application/json, text/plain')
+    .set('Content-Type', 'application/json')
+    .send(body)
+    .then((response) => {
+      return response
+    })
+    .catch((err) => {
+      console.error(`healthCheckErr ${err}`)
+      return err
+    })
+}
+
 async function listDids({ app, token }, query = {}) {
   return request(app)
     .get(`/${API_MAJOR_VERSION}/aca-py/wallet/did`)
     .query(query)
     .set('Accept', 'application/json, text/plain')
     .set('Authorization', `Bearer ${token}`)
+    .send()
+    .then((response) => {
+      return response
+    })
+    .catch((err) => {
+      console.error(`healthCheckErr ${err}`)
+      return err
+    })
+}
+
+async function listDidsUnauthorized({ app }, query = {}) {
+  return request(app)
+    .get(`/${API_MAJOR_VERSION}/aca-py/wallet/did`)
+    .query(query)
+    .set('Accept', 'application/json, text/plain')
     .send()
     .then((response) => {
       return response
@@ -81,7 +111,9 @@ async function createDid({ app, token }, body) {
 module.exports = {
   apiDocs,
   healthCheck,
+  createWalletUnauthorized,
   createWallet,
+  listDidsUnauthorized,
   listDids,
   createDid,
 }

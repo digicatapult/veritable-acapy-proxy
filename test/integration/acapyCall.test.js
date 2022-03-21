@@ -4,9 +4,23 @@ const { expect } = require('chai')
 const { createHttpServer } = require('../../app/server')
 const { withAuthToken } = require('../helper/auth0')
 const { withExistingWallet, withExistingDid, finallyCleanUpWallet } = require('../helper/acapy')
-const { listDids, createDid } = require('../helper/routeHelper')
+const { listDids, listDidsUnauthorized, createDid } = require('../helper/routeHelper')
 
 describe('sub-wallet methods', function () {
+  describe('unauthenticated', function () {
+    const context = {}
+    before(async function () {
+      context.app = (await createHttpServer()).app
+    })
+    withExistingWallet(context)
+
+    it('should fail with 401 Unauthorized', async function () {
+      const response = await listDidsUnauthorized(context)
+      expect(response.status).to.equal(401)
+      expect(response.text).to.be.a('String')
+    })
+  })
+
   describe('listing all dids', function () {
     const context = {}
     before(async function () {

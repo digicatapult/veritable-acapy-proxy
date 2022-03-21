@@ -4,9 +4,27 @@ const { expect } = require('chai')
 const { createHttpServer } = require('../../app/server')
 const { withAuthToken } = require('../helper/auth0')
 const { withNoExistingWallet, withExistingWallet, finallyCleanUpWallet } = require('../helper/acapy')
-const { createWallet } = require('../helper/routeHelper')
+const { createWallet, createWalletUnauthorized } = require('../helper/routeHelper')
 
 describe('wallet creation', function () {
+  describe('unauthenticated', function () {
+    const context = {}
+    before(async function () {
+      context.app = (await createHttpServer()).app
+    })
+    withNoExistingWallet(context)
+
+    it('should fail with 401 Unauthorized', async function () {
+      const response = await createWalletUnauthorized(context, {
+        label: 'test',
+        wallet_key: 'MySecretKey123',
+        wallet_type: 'in_memory',
+      })
+      expect(response.status).to.equal(401)
+      expect(response.text).to.be.a('String')
+    })
+  })
+
   describe('as a new user', function () {
     const context = {}
     before(async function () {
