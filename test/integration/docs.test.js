@@ -17,7 +17,6 @@ describe('api-docs', function () {
 
     expect(actualResult.status).to.equal(200)
     expect(actualResult.body).to.be.a.jsonObj()
-    expect(JSON.stringify(actualResult.body)).to.include('openapi')
-    expect(JSON.stringify(actualResult.body)).to.include('info')
+    expect(actualResult.body.openapi).to.equal('3.0.0')
   })
 })

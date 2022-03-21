@@ -1,7 +1,14 @@
 config:
   port: 80
+  logLevel: info
+  # serviceHost: localhost
+  servicePort: 80
+  acapyApiKey: example-apikey
+  acapyAdminService: http://www.example.com:80
+  authAudience: example-audience
+  authIssuer: https://example.eu.auth0.com/
 image:
   repository: ghcr.io/digicatapult/veritable-acapy-proxy
   pullPolicy: IfNotPresent
-  tag: 'v0.0.2'
+  tag: 'v1.0.0'
   pullSecrets: ['ghcr-digicatapult']

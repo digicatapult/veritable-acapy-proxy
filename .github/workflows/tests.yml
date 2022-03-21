@@ -161,7 +161,6 @@ jobs:
           time: '30s'
       - name: Run tests
         run: npm run test
-
   check-version:
     name: 'Check version'
     runs-on: ubuntu-latest
