@@ -57,6 +57,23 @@ const getSubWalletToken = async (subWalletName) => {
   return token
 }
 
+const serverStatusCall = async ({ query }) => {
+  const fetch = (await import('node-fetch')).default
+
+  const url = new URL(`${ACAPY_ADMIN_SERVICE}/status`)
+  const search = new URLSearchParams(query)
+  url.search = search.toString()
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'x-api-key': ACAPY_API_KEY,
+    },
+  })
+
+  return response
+}
+
 const noBodyMethods = new Set(['GET', 'HEAD'])
 const subWalletCall = async (token, { path, query, method, body }) => {
   const fetch = (await import('node-fetch')).default
@@ -82,5 +99,6 @@ module.exports = {
   querySubWallets,
   createSubWallet,
   getSubWalletToken,
+  serverStatusCall,
   subWalletCall,
 }

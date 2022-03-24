@@ -76,7 +76,7 @@ describe('wallet creation', function () {
     withAuthToken(context)
     withExistingWallet(context)
 
-    it('should create a new wallet', async function () {
+    it('should not create a new wallet', async function () {
       const response = await createWallet(context, {
         label: 'test',
         wallet_key: 'MySecretKey123',

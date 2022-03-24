@@ -93,6 +93,37 @@ async function listDidsUnauthorized({ app }, query = {}) {
     })
 }
 
+async function serverStatus({ app, token }, query = {}) {
+  return request(app)
+    .get(`/${API_MAJOR_VERSION}/aca-py/status`)
+    .query(query)
+    .set('Accept', 'application/json, text/plain')
+    .set('Authorization', `Bearer ${token}`)
+    .send()
+    .then((response) => {
+      return response
+    })
+    .catch((err) => {
+      console.error(`healthCheckErr ${err}`)
+      return err
+    })
+}
+
+async function serverStatusUnauthorized({ app }, query = {}) {
+  return request(app)
+    .get(`/${API_MAJOR_VERSION}/aca-py/status`)
+    .query(query)
+    .set('Accept', 'application/json, text/plain')
+    .send()
+    .then((response) => {
+      return response
+    })
+    .catch((err) => {
+      console.error(`healthCheckErr ${err}`)
+      return err
+    })
+}
+
 async function createDid({ app, token }, body) {
   return request(app)
     .post(`/${API_MAJOR_VERSION}/aca-py/wallet/did/create`)
@@ -113,7 +144,9 @@ module.exports = {
   healthCheck,
   createWalletUnauthorized,
   createWallet,
-  listDidsUnauthorized,
   listDids,
+  listDidsUnauthorized,
+  serverStatus,
+  serverStatusUnauthorized,
   createDid,
 }

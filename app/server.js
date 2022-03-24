@@ -12,7 +12,7 @@ const jwksRsa = require('jwks-rsa')
 const env = require('./env')
 const logger = require('./logger')
 const transformApiDoc = require('./util/transformApiDoc')
-const { querySubWallets, createSubWallet, getSubWalletToken, subWalletCall } = require('./acapy')
+const { querySubWallets, createSubWallet, getSubWalletToken, serverStatusCall, subWalletCall } = require('./acapy')
 
 const {
   SERVICE_HOST,
@@ -91,6 +91,7 @@ async function createHttpServer() {
     const wallets = await querySubWallets(subject)
     if (wallets.length !== 0) {
       res.status(409).type('text/plain').send(`409 Wallet already exists`)
+      return
     }
 
     const response = await createSubWallet({
@@ -98,6 +99,15 @@ async function createHttpServer() {
       wallet_name: subject,
     })
 
+    const result = Buffer.from(await response.arrayBuffer())
+    res.status(response.status).type(response.headers.get('content-type')).send(result)
+  })
+
+  // get server status
+  app.get(`${acapyPathPrefix}/status`, async (req, res) => {
+    const response = await serverStatusCall({
+      query: req.query,
+    })
     const result = Buffer.from(await response.arrayBuffer())
     res.status(response.status).type(response.headers.get('content-type')).send(result)
   })
