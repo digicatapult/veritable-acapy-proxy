@@ -1,8 +1,8 @@
 apiVersion: v2
 name: veritable-acapy-proxy
-appVersion: '1.0.0'
+appVersion: '1.1.0'
 description: A Helm chart for veritable-acapy-proxy
-version: '1.0.0'
+version: '1.1.0'
 type: application
 maintainers:
   - name: digicatapult
