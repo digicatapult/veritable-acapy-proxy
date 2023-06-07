@@ -6,7 +6,6 @@ const bodyParser = require('body-parser')
 const compression = require('compression')
 const swagger2openapi = require('swagger2openapi')
 
-
 const { expressjwt: jwt } = require('express-jwt')
 const jwksRsa = require('jwks-rsa')
 
