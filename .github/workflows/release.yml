@@ -81,7 +81,7 @@ jobs:
           minikube version: 'v1.28.0'
           kubernetes version: 'v1.25.4'
       - name: Login to minikube docker registry
-        run: eval $(minikube -p minikube docker-env)
+        run: eval $(minikube -p minikube docker-env --unset)
       - name: Build and Publish image
         uses: docker/build-push-action@v2
         with:
