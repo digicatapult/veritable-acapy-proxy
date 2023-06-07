@@ -161,10 +161,10 @@ jobs:
           time: '30s'
       - name: Run tests
         run: npm run test
-  check-version:
-    name: 'Check version'
-    runs-on: ubuntu-latest
 
+  check-version:
+    name: "Check version"
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: git fetch --depth=1 --tags origin
