@@ -70,10 +70,10 @@ jobs:
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.0.1
       - name: Setup Minikube
-        uses: manusa/actions-setup-minikube@v2.3.0
+        uses: manusa/actions-setup-minikube@v2.7.2
         with:
-          minikube version: 'v1.17.1'
-          kubernetes version: 'v1.19.2'
+          minikube version: 'v1.28.0'
+          kubernetes version: 'v1.25.4'
       - name: Login to minikube docker registry
         run: eval $(minikube -p minikube docker-env)
       - name: Build and Publish image
