@@ -12,7 +12,7 @@ jobs:
       org_name: ${{ steps.repo_ids.outputs.ORG_NAME }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Get repository identifiers
@@ -28,7 +28,7 @@ jobs:
     needs: [repo_ids]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Set up Helm
@@ -48,7 +48,7 @@ jobs:
     needs: [repo_ids]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Setup QEMU
@@ -70,12 +70,12 @@ jobs:
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.0.1
       - name: Setup Minikube
-        uses: manusa/actions-setup-minikube@v2.3.0
+        uses: manusa/actions-setup-minikube@v2.7.2
         with:
-          minikube version: 'v1.17.1'
-          kubernetes version: 'v1.19.2'
+          minikube version: 'v1.28.0'
+          kubernetes version: 'v1.25.4'
       - name: Login to minikube docker registry
-        run: eval $(minikube -p minikube docker-env)
+        run: eval $(minikube -p minikube docker-env --unset)
       - name: Build and Publish image
         uses: docker/build-push-action@v2
         with:
@@ -98,8 +98,8 @@ jobs:
     name: Run lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - name: Cache Node.js modules
@@ -118,8 +118,8 @@ jobs:
     name: Run dependency check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - name: Cache Node.js modules
@@ -139,12 +139,13 @@ jobs:
     name: Run tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
+
       - name: Cache Node.js modules
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
           key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -161,12 +162,12 @@ jobs:
           time: '30s'
       - name: Run tests
         run: npm run test
-  check-version:
-    name: 'Check version'
-    runs-on: ubuntu-latest
 
+  check-version:
+    name: "Check version"
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: git fetch --depth=1 --tags origin
       - name: Install yq
         run: sudo snap install yq
