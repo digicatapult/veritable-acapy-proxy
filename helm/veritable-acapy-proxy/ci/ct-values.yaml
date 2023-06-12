@@ -1,4 +1,0 @@
-image:
-  repository: 'veritable-acapy-proxy'
-  tag: 'latest'
-  PullPolicy: Never

@@ -12,7 +12,7 @@ jobs:
       org_name: ${{ steps.repo_ids.outputs.ORG_NAME }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Check token
@@ -29,88 +29,17 @@ jobs:
           echo "::set-output name=REPO_NAME::$REPO_NAME"
           echo "::set-output name=ORG_NAME::$ORG_NAME"
 
-  helm-lint:
-    runs-on: ubuntu-latest
-    needs: [preconditions]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Set up Helm
-        uses: azure/setup-helm@v1
-        with:
-          version: v3.4.0
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
-      - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.0.1
-      - name: Run chart-testing (lint)
-        run: ct lint --validate-maintainers false --charts helm/${{ needs.preconditions.outputs.repo_name }}/
-
-  helm-test:
-    runs-on: ubuntu-latest
-    needs: [preconditions]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v1
-        with:
-          platforms: all
-      - name: Setup Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-        with:
-          buildkitd-flags: '--debug'
-      - name: Set up Helm
-        uses: azure/setup-helm@v1
-        with:
-          version: v3.4.0
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
-      - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.0.1
-      - name: Setup Minikube
-        uses: manusa/actions-setup-minikube@v2.3.0
-        with:
-          minikube version: 'v1.17.1'
-          kubernetes version: 'v1.19.2'
-      - name: Login to minikube docker registry
-        run: eval $(minikube -p minikube docker-env)
-      - name: Build and Publish image
-        uses: docker/build-push-action@v2
-        with:
-          builder: ${{ steps.buildx.outputs.name }}
-          context: .
-          load: true
-          file: ./Dockerfile
-          tags: |
-            ${{ needs.preconditions.outputs.repo_name }}:latest
-          labels: |
-            org.opencontainers.image.title=${{ needs.preconditions.outputs.repo_name }}
-            org.opencontainers.image.description=${{ github.event.repository.description }}
-            org.opencontainers.image.source=${{ github.event.repository.html_url }}
-            org.opencontainers.image.url=${{ github.event.repository.html_url }}
-            org.opencontainers.image.revision=${{ github.sha }}
-      - name: Run chart-testing (install)
-        run: ct install  --charts helm/${{ needs.preconditions.outputs.repo_name }}/
-
   lint:
     name: Run lint
     runs-on: ubuntu-latest
     needs: [preconditions]
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
       - name: Cache Node.js modules
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
           key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -126,10 +55,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [preconditions]
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
       - name: Cache Node.js modules
         uses: actions/cache@v1
         with:
@@ -147,10 +76,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [preconditions]
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
       - name: Cache Node.js modules
         uses: actions/cache@v1
         with:
@@ -179,7 +108,7 @@ jobs:
       is_prerelease: ${{ steps.get_version.outputs.IS_PRERELEASE }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: git fetch --depth=1 --tags origin
       - name: Install yq
         run: sudo snap install yq
@@ -200,7 +129,7 @@ jobs:
     if: ${{ needs.check-version.outputs.is_new_version == 'true' }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # Docker build
       - name: Setup QEMU
