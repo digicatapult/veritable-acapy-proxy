@@ -1,5 +1,9 @@
 # veritable-acapy-proxy
 
+## Deprecation Notice
+This application was deprecated on March 14th 2024, there will be no further dependency or security updates.
+---
+
 Proxy service for aca-py cloud wallets. [aries-cloudagent-python](https://github.com/hyperledger/aries-cloudagent-python) (also known as aca-py) is a cloud based wallet service for SSI implementations. The architecture of aca-py does not however allow a frontend to connect directly to it safely as this would expose all necessary API authentication details (see [this issue](https://github.com/hyperledger/aries-cloudagent-python/issues/1632) for details). This service acts an authenticated shim for aca-py such that it can be used safely as a multi-tenant cloud wallet.
 
 ## Architecture
